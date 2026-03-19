@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<!--
+   _____                         __            
+  / ___/___  ____ ___  ___  ____/ /___  _____  
+ \__ \/ __ \/ __ `__ \/ _ \/ __  / __ \/ ___/  
+___/ / /_/ / / / / / /  __/ /_/ / /_/ / /      
+/____/\____/_/ /_/ /_/\___/\__,_/\____/_/       
+                                                 
+    Created with Perplexity Computer
+    https://www.perplexity.ai/computer
+-->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AddictionEd by TroyMD — SUD Training Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="dark"] {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface-2: #232738;
+  --surface-3: #2a2f42;
+  --border: #2d3248;
+  --border-hover: #3d4260;
+  --text: #e4e4e7;
+  --text-muted: #9ca3af;
+  --text-faint: #6b7280;
+  --cat1: #FF6B6B;
+  --cat2: #4ECDC4;
+  --cat3: #FFD93D;
+  --cat4: #6BCB77;
+  --cat5: #9B59B6;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --radius: 10px;
+  --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme="light"] {
+  --bg: #f3f4f8;
+  --surface: #ffffff;
+  --surface-2: #f0f1f5;
+  --surface-3: #e8e9f0;
+  --border: #d4d7e0;
+  --border-hover: #b0b5c4;
+  --text: #1a1d27;
+  --text-muted: #5a6070;
+  --text-faint: #8a90a0;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100dvh;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* NAV */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding: 3rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .topic-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--border-hover);
+    }
+
+    .topic-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .topic-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .topic-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .topic-card .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .topic-card .btn:hover {
+      background: var(--surface-3);
+      border-color: var(--border-hover);
+      transform: translateX(4px);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .status-published {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .status-coming-soon {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    🌙
+  </button>
+
+  <main>
+    <div class="hero">
+      <h1>AddictionEd</h1>
+      <p>Evidence-based training modules for substance use disorder education. Clinical resources for psychiatry residents and addiction medicine learners.</p>
+    </div>
+
+    <div class="topics-grid">
+      <div class="topic-card">
+        <span class="status-badge status-published">Published</span>
+        <h2>Alcohol & Benzodiazepine Use Disorders</h2>
+        <p>Comprehensive review of alcohol and benzodiazepine withdrawal management, pharmacotherapy, and evidence-based treatment approaches for ASAM 3.7 and 3.5 level care.</p>
+        <a href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/" class="btn">View Module →</a>
+      </div>
+
+      <div class="topic-card">
+        <span class="status-badge status-coming-soon">Coming Soon</span>
+        <h2>Opioid Use Disorder</h2>
+        <p>Medication-assisted treatment, withdrawal management, and harm reduction strategies for opioid use disorder.</p>
+        <a href="#" class="btn" style="opacity: 0.5; cursor: not-allowed;">In Development</a>
+      </div>
+
+      <div class="topic-card">
+        <span class="status-badge status-coming-soon">Coming Soon</span>
+        <h2>Stimulant Use Disorders</h2>
+        <p>Evidence-based approaches to methamphetamine and cocaine use disorder management and psychosocial interventions.</p>
+        <a href="#" class="btn" style="opacity: 0.5; cursor: not-allowed;">In Development</a>
+      </div>
+
+      <div class="topic-card">
+        <span class="status-badge status-coming-soon">Coming Soon</span>
+        <h2>Cannabis Use Disorder</h2>
+        <p>Clinical assessment, withdrawal syndrome, and treatment approaches for cannabis use disorder.</p>
+        <a href="#" class="btn" style="opacity: 0.5; cursor: not-allowed;">In Development</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Created with Perplexity Computer</p>
+    <p>https://www.perplexity.ai/computer</p>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Check for saved theme preference or default to 'dark'
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', currentTheme);
+    themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+    
+    themeToggle.addEventListener('click', () => {
+      const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+    });
+  </script>
+</body>
+</html>
