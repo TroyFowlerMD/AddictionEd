@@ -198,6 +198,19 @@ body {
       transform: scaleX(1);
     }
 
+    .card-icon {
+      display: block;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1.25rem;
+      opacity: 0.25;
+      transition: opacity var(--transition);
+    }
+
+    .topic-card:hover .card-icon {
+      opacity: 0.4;
+    }
+
     .topic-card h2 {
       font-size: 1.5rem;
       margin-bottom: 1rem;
@@ -261,34 +274,73 @@ body {
     </div>
 
     <div class="topics-grid">
-      <a class="topic-card" href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/">
-        <span class="status-badge status-published">Published</span>
-        <h2>Alcohol & Benzodiazepine Use Disorders</h2>
-        <p>Comprehensive review of alcohol and benzodiazepine withdrawal management, pharmacotherapy, and evidence-based treatment approaches for ASAM 3.7 and 3.5 level care.</p>
-      </a>
-
-      <a class="topic-card" href="https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/">
-        <span class="status-badge status-published">Published</span>
-        <h2>Perinatal Substance Use Disorders</h2>
-        <p>Management of substance use disorders in pregnancy and the postpartum period. Covers OUD, AUD, stimulants, cannabis, and tobacco with maternal-fetal pharmacotherapy, NOWS assessment, breastfeeding guidance, and legal considerations.</p>
-      </a>
-
+      <!-- 1. OUD -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Opioid-Use-Disorder/">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="14" y="8" width="20" height="32" rx="10" />
+          <line x1="14" y1="24" x2="34" y2="24" />
+          <line x1="24" y1="17" x2="24" y2="21" />
+          <line x1="22" y1="19" x2="26" y2="19" />
+        </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Opioid Use Disorder</h2>
         <p>Medication-assisted treatment, withdrawal management, and harm reduction strategies for opioid use disorder.</p>
       </a>
 
+      <!-- 2. AUD/BZD -->
+      <a class="topic-card" href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8h12v6l-4 6v14a4 4 0 0 1-4 4v0a4 4 0 0 1-4-4V20l-4-6V8z" />
+          <line x1="18" y1="14" x2="30" y2="14" />
+          <path d="M20 28a4 4 0 0 0 8 0" opacity="0.5" />
+        </svg>
+        <span class="status-badge status-published">Published</span>
+        <h2>Alcohol & Benzodiazepine Use Disorders</h2>
+        <p>Comprehensive review of alcohol and benzodiazepine withdrawal management, pharmacotherapy, and evidence-based treatment approaches for ASAM 3.7 and 3.5 level care.</p>
+      </a>
+
+      <!-- 3. StUD -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Stimulant-Use-Disorder/">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="26 6 18 22 28 22 20 42" />
+          <line x1="32" y1="14" x2="38" y2="14" opacity="0.4" />
+          <line x1="34" y1="20" x2="40" y2="20" opacity="0.3" />
+          <line x1="32" y1="26" x2="37" y2="26" opacity="0.2" />
+        </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Stimulant Use Disorders</h2>
         <p>Epidemiology, pharmacology, screening, intoxication, withdrawal, behavioral and pharmacologic treatment, stimulant-induced psychosis, methamphetamine and cocaine-specific considerations, special populations, and harm reduction.</p>
       </a>
 
+      <!-- 4. CUD -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Cannabis-Use-Disorder/">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M24 40V24" />
+          <path d="M24 24c0-8 8-14 8-14s-2 6-8 14" />
+          <path d="M24 24c0-8-8-14-8-14s2 6 8 14" />
+          <path d="M24 20c-4-6-12-8-12-8s4 4 12 8" />
+          <path d="M24 20c4-6 12-8 12-8s-4 4-12 8" />
+          <path d="M24 28c-6-4-14-2-14-2s6 2 14 2" opacity="0.6" />
+          <path d="M24 28c6-4 14-2 14-2s-6 2-14 2" opacity="0.6" />
+        </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Cannabis Use Disorder</h2>
         <p>Epidemiology, neuropharmacology, screening, withdrawal, psychosocial and pharmacologic treatment, psychosis, CHS, synthetic cannabinoids, and special populations.</p>
+      </a>
+
+      <!-- 5. Perinatal -->
+      <a class="topic-card" href="https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="26" cy="10" r="4" />
+          <path d="M22 18c-1 2-2 6-2 10a10 10 0 0 0 5 8.6" />
+          <path d="M30 18c2 3 4 7 4 12" />
+          <path d="M22 28c0 0 2.5 1.5 6 1.5s5-1 5-1" />
+          <line x1="25" y1="36.6" x2="25" y2="42" />
+          <line x1="34" y1="30" x2="34" y2="42" />
+        </svg>
+        <span class="status-badge status-published">Published</span>
+        <h2>Perinatal Substance Use Disorders</h2>
+        <p>Management of substance use disorders in pregnancy and the postpartum period. Covers OUD, AUD, stimulants, cannabis, and tobacco with maternal-fetal pharmacotherapy, NOWS assessment, breastfeeding guidance, and legal considerations.</p>
       </a>
     </div>
   </main>
