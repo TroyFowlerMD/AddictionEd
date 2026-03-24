@@ -162,7 +162,10 @@ body {
       margin-bottom: 3rem;
     }
 
-    .topic-card {
+    a.topic-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -170,6 +173,7 @@ body {
       transition: all var(--transition);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .topic-card::before {
@@ -202,26 +206,8 @@ body {
 
     .topic-card p {
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
       line-height: 1.6;
-    }
-
-    .topic-card .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all var(--transition);
-      cursor: pointer;
-    }
-
-    .topic-card .btn:hover {
-      background: var(--surface-3);
-      border-color: var(--border-hover);
-      transform: translateX(4px);
     }
 
     .status-badge {
@@ -275,40 +261,35 @@ body {
     </div>
 
     <div class="topics-grid">
-      <div class="topic-card">
+      <a class="topic-card" href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/">
         <span class="status-badge status-published">Published</span>
         <h2>Alcohol & Benzodiazepine Use Disorders</h2>
         <p>Comprehensive review of alcohol and benzodiazepine withdrawal management, pharmacotherapy, and evidence-based treatment approaches for ASAM 3.7 and 3.5 level care.</p>
-        <a href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/" class="btn">View Module →</a>
-      </div>
+      </a>
 
-      <div class="topic-card">
+      <a class="topic-card" href="https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/">
         <span class="status-badge status-published">Published</span>
         <h2>Perinatal Substance Use Disorders</h2>
         <p>Management of substance use disorders in pregnancy and the postpartum period. Covers OUD, AUD, stimulants, cannabis, and tobacco with maternal-fetal pharmacotherapy, NOWS assessment, breastfeeding guidance, and legal considerations.</p>
-        <a href="https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/" class="btn">View Module →</a>
-      </div>
+      </a>
 
-      <div class="topic-card">
+      <a class="topic-card" href="https://troyfowlermd.github.io/Opioid-Use-Disorder/">
         <span class="status-badge status-published">Published</span>
         <h2>Opioid Use Disorder</h2>
         <p>Medication-assisted treatment, withdrawal management, and harm reduction strategies for opioid use disorder.</p>
-        <a href="https://troyfowlermd.github.io/Opioid-Use-Disorder/" class="btn">View Module →</a>
-      </div>
+      </a>
 
-      <div class="topic-card">
+      <a class="topic-card" href="https://troyfowlermd.github.io/Stimulant-Use-Disorder/">
         <span class="status-badge status-published">Published</span>
         <h2>Stimulant Use Disorders</h2>
         <p>Epidemiology, pharmacology, screening, intoxication, withdrawal, behavioral and pharmacologic treatment, stimulant-induced psychosis, methamphetamine and cocaine-specific considerations, special populations, and harm reduction.</p>
-        <a href="https://troyfowlermd.github.io/Stimulant-Use-Disorder/" class="btn">View Module →</a>
-      </div>
+      </a>
 
-      <div class="topic-card">
+      <a class="topic-card" href="https://troyfowlermd.github.io/Cannabis-Use-Disorder/">
         <span class="status-badge status-published">Published</span>
         <h2>Cannabis Use Disorder</h2>
         <p>Epidemiology, neuropharmacology, screening, withdrawal, psychosocial and pharmacologic treatment, psychosis, CHS, synthetic cannabinoids, and special populations.</p>
-        <a href="https://troyfowlermd.github.io/Cannabis-Use-Disorder/" class="btn">View Module →</a>
-      </div>
+      </a>
     </div>
   </main>
 
