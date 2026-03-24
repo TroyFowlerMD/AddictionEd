@@ -32,11 +32,8 @@ ___/ / /_/ / / / / / /  __/ /_/ / /_/ / /
   --text: #e4e4e7;
   --text-muted: #9ca3af;
   --text-faint: #6b7280;
-  --cat1: #FF6B6B;
-  --cat2: #4ECDC4;
-  --cat3: #FFD93D;
-  --cat4: #6BCB77;
-  --cat5: #9B59B6;
+  --accent: #667eea;
+  --accent-2: #764ba2;
   --shadow: 0 4px 24px rgba(0,0,0,0.3);
   --radius: 10px;
   --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -77,29 +74,167 @@ body {
   transition: background var(--transition), color var(--transition);
 }
 
-/* NAV */
+/* ── NAVBAR ── */
 .topnav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  padding: 1rem 2rem;
+  padding: 0 2rem;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .nav-logo {
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
+.nav-logo span {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Search wrapper */
+.search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+
+.search-wrap input {
+  width: 100%;
+  height: 36px;
+  padding: 0 0.75rem 0 2.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search-wrap input::placeholder {
+  color: var(--text-faint);
+}
+
+.search-wrap input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+/* Search results dropdown */
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 380px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  display: none;
+  z-index: 200;
+}
+
+.search-results.active {
+  display: block;
+}
+
+.sr-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--transition);
+  border-bottom: 1px solid var(--border);
+}
+
+.sr-item:last-child {
+  border-bottom: none;
+}
+
+.sr-item:hover, .sr-item.active {
+  background: var(--surface-2);
+}
+
+.sr-title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sr-title mark {
+  background: rgba(102, 126, 234, 0.25);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.sr-badge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sr-badge[data-mod="OUD"] { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+.sr-badge[data-mod="AUD/BZD"] { background: rgba(78,205,196,0.15); color: #4ECDC4; }
+.sr-badge[data-mod="StUD"] { background: rgba(255,217,61,0.15); color: #FFD93D; }
+.sr-badge[data-mod="CUD"] { background: rgba(107,203,119,0.15); color: #6BCB77; }
+.sr-badge[data-mod="Perinatal"] { background: rgba(155,89,182,0.15); color: #9B59B6; }
+
+.sr-kind {
+  font-size: 0.625rem;
+  color: var(--text-faint);
+  text-transform: capitalize;
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.search-empty {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.8125rem;
+}
+
+/* Theme toggle */
 .theme-toggle {
   width: 36px;
   height: 36px;
@@ -112,6 +247,7 @@ body {
   background: var(--surface-2);
   border: 1px solid var(--border);
   transition: all var(--transition);
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
@@ -119,152 +255,292 @@ body {
   border-color: var(--border-hover);
 }
 
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+/* ── MAIN ── */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 
-    .hero {
-      text-align: center;
-      margin-bottom: 4rem;
-      padding: 3rem 1rem;
-    }
+.hero {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 3rem 1rem;
+}
 
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 0.25rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.25rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-    .hero .subtitle {
-      font-size: 1rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
+.hero .subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
 
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
+.hero p {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
 
-    .topics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
+/* ── CARDS ── */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
 
-    a.topic-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      transition: all var(--transition);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
+a.topic-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
 
-    .topic-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-      transform: scaleX(0);
-      transition: transform var(--transition);
-    }
+.topic-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
 
-    .topic-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-      border-color: var(--border-hover);
-    }
+.topic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--border-hover);
+}
 
-    .topic-card:hover::before {
-      transform: scaleX(1);
-    }
+.topic-card:hover::before {
+  transform: scaleX(1);
+}
 
-    .card-icon {
-      display: block;
-      width: 48px;
-      height: 48px;
-      margin-bottom: 1.25rem;
-      opacity: 0.25;
-      transition: opacity var(--transition);
-    }
+.card-icon {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 1.25rem;
+  opacity: 0.35;
+  transition: opacity var(--transition);
+}
 
-    .topic-card:hover .card-icon {
-      opacity: 0.4;
-    }
+.topic-card:hover .card-icon {
+  opacity: 0.55;
+}
 
-    .topic-card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
+.topic-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
 
-    .topic-card p {
-      color: var(--text-muted);
-      margin-bottom: 0;
-      line-height: 1.6;
-    }
+.topic-card p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+  line-height: 1.6;
+}
 
-    .status-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
 
-    .status-published {
-      background: rgba(16, 185, 129, 0.1);
-      color: #10b981;
-    }
+.status-published {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
 
-    .status-coming-soon {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-    }
+.status-coming-soon {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+}
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      margin-top: 4rem;
-    }
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+}
 
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .topics-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+footer a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 2px;
+}
+
+footer a:hover {
+  color: var(--text);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+  .topnav {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  .nav-logo {
+    font-size: 0.875rem;
+  }
+  .search-wrap {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo span {
+    display: none;
+  }
+}
+
+/* ── Suggestions & Feedback ── */
+.feedback-box {
+  background: var(--surface, #1a1d27);
+  border: 1px solid var(--border, #2d3248);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-top: 3rem;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.feedback-box h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text, #e4e4e7);
+  margin-bottom: 1rem;
+}
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.feedback-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text, #e4e4e7);
+}
+.feedback-field input,
+.feedback-field textarea {
+  background: var(--surface-2, #232738);
+  border: 1px solid var(--border, #2d3248);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text, #e4e4e7);
+  font-family: inherit;
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+  resize: vertical;
+}
+.feedback-field input::placeholder,
+.feedback-field textarea::placeholder {
+  color: var(--text-faint, #6b7280);
+}
+.feedback-field input:focus,
+.feedback-field textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+}
+.feedback-field textarea {
+  min-height: 90px;
+}
+.feedback-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #667eea;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 250ms ease, opacity 250ms ease;
+}
+.feedback-submit:hover {
+  background: #5a6fd6;
+}
+.feedback-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.feedback-success {
+  display: none;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  color: #10b981;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+.feedback-success.visible {
+  display: block;
+}
+@media (max-width: 599px) {
+  .feedback-box { padding: 1.25rem; }
+}
+@media print {
+  .feedback-box { display: none; }
+}
+</style>
 </head>
 <body>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-    🌙
-  </button>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="topnav">
+    <div class="nav-logo">AddictionEd <span>by TroyMD</span></div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><line x1="10" y1="10" x2="15" y2="15"/></svg>
+      <input type="text" id="searchInput" placeholder="Search topics, medications, tools&hellip;" autocomplete="off" spellcheck="false" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" id="themeIcon"><path d="M13.5 8.5a5.5 5.5 0 1 1-6-6 4.5 4.5 0 0 0 6 6z"/></svg>
+    </button>
+  </nav>
 
   <main>
     <div class="hero">
@@ -274,69 +550,110 @@ body {
     </div>
 
     <div class="topics-grid">
-      <!-- 1. OUD -->
+      <!-- 1. OUD — Syringe with needle, clean clinical style -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Opioid-Use-Disorder/">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="14" y="8" width="20" height="32" rx="10" />
-          <line x1="14" y1="24" x2="34" y2="24" />
-          <line x1="24" y1="17" x2="24" y2="21" />
-          <line x1="22" y1="19" x2="26" y2="19" />
+        <svg class="card-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Syringe barrel -->
+          <rect x="18" y="14" width="14" height="26" rx="2" />
+          <!-- Plunger handle -->
+          <line x1="22" y1="10" x2="30" y2="10" />
+          <line x1="26" y1="10" x2="26" y2="14" />
+          <!-- Needle -->
+          <line x1="25" y1="40" x2="25" y2="48" />
+          <!-- Dose markings -->
+          <line x1="18" y1="21" x2="22" y2="21" opacity="0.5" />
+          <line x1="18" y1="27" x2="22" y2="27" opacity="0.5" />
+          <line x1="18" y1="33" x2="22" y2="33" opacity="0.5" />
+          <!-- Fluid level -->
+          <rect x="19" y="28" width="12" height="11" rx="1" opacity="0.12" fill="currentColor" stroke="none" />
         </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Opioid Use Disorder</h2>
         <p>Medication-assisted treatment, withdrawal management, and harm reduction strategies for opioid use disorder.</p>
       </a>
 
-      <!-- 2. AUD/BZD -->
+      <!-- 2. AUD/BZD — Bottle + pill tablet -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 8h12v6l-4 6v14a4 4 0 0 1-4 4v0a4 4 0 0 1-4-4V20l-4-6V8z" />
-          <line x1="18" y1="14" x2="30" y2="14" />
-          <path d="M20 28a4 4 0 0 0 8 0" opacity="0.5" />
+        <svg class="card-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Bottle body -->
+          <path d="M15 18h12v24a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V18z" />
+          <!-- Bottle neck -->
+          <path d="M18 12h6v6h-6z" />
+          <!-- Bottle cap -->
+          <line x1="17" y1="12" x2="25" y2="12" />
+          <!-- Liquid level -->
+          <path d="M16 30h10v12a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V30z" opacity="0.12" fill="currentColor" stroke="none" />
+          <!-- Pill / tablet (oblong shape) -->
+          <rect x="33" y="30" width="14" height="8" rx="4" />
+          <!-- Pill dividing line -->
+          <line x1="40" y1="30" x2="40" y2="38" opacity="0.5" />
         </svg>
         <span class="status-badge status-published">Published</span>
-        <h2>Alcohol & Benzodiazepine Use Disorders</h2>
+        <h2>Alcohol &amp; Benzodiazepine Use Disorders</h2>
         <p>Comprehensive review of alcohol and benzodiazepine withdrawal management, pharmacotherapy, and evidence-based treatment approaches for ASAM 3.7 and 3.5 level care.</p>
       </a>
 
-      <!-- 3. StUD -->
+      <!-- 3. StUD — Brain with electrical pulse -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Stimulant-Use-Disorder/">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="26 6 18 22 28 22 20 42" />
-          <line x1="32" y1="14" x2="38" y2="14" opacity="0.4" />
-          <line x1="34" y1="20" x2="40" y2="20" opacity="0.3" />
-          <line x1="32" y1="26" x2="37" y2="26" opacity="0.2" />
+        <svg class="card-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Brain outline (simplified, two hemispheres) -->
+          <path d="M28 12c-5 0-9 2-11 5.5-2 3.5-1.5 7.5 0.5 10.5 1.5 2.3 1 5-0.5 7s-1 4.5 1.5 6c2 1.2 5 1 7 0" />
+          <path d="M28 12c5 0 9 2 11 5.5 2 3.5 1.5 7.5-0.5 10.5-1.5 2.3-1 5 0.5 7s1 4.5-1.5 6c-2 1.2-5 1-7 0" />
+          <!-- Central fissure -->
+          <path d="M28 14v27" opacity="0.3" />
+          <!-- Neural pulse line -->
+          <polyline points="12 34 17 34 19 29 22 39 25 32 27 34 30 34" opacity="0.5" />
         </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Stimulant Use Disorders</h2>
         <p>Epidemiology, pharmacology, screening, intoxication, withdrawal, behavioral and pharmacologic treatment, stimulant-induced psychosis, methamphetamine and cocaine-specific considerations, special populations, and harm reduction.</p>
       </a>
 
-      <!-- 4. CUD -->
+      <!-- 4. CUD — Cannabis leaf (proper 7-pointed botanical form) -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Cannabis-Use-Disorder/">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M24 40V24" />
-          <path d="M24 24c0-8 8-14 8-14s-2 6-8 14" />
-          <path d="M24 24c0-8-8-14-8-14s2 6 8 14" />
-          <path d="M24 20c-4-6-12-8-12-8s4 4 12 8" />
-          <path d="M24 20c4-6 12-8 12-8s-4 4-12 8" />
-          <path d="M24 28c-6-4-14-2-14-2s6 2 14 2" opacity="0.6" />
-          <path d="M24 28c6-4 14-2 14-2s-6 2-14 2" opacity="0.6" />
+        <svg class="card-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Stem -->
+          <line x1="28" y1="42" x2="28" y2="48" />
+          <!-- 7-pointed cannabis leaf: center + 3 pairs -->
+          <!-- Center leaflet (tallest) -->
+          <path d="M28 42 C26 36 22 28 21 22 C21 18 24 14 28 10 C32 14 35 18 35 22 C34 28 30 36 28 42z" opacity="0.08" fill="currentColor" stroke="none" />
+          <path d="M28 42 C26 36 22 28 21 22 C21 18 24 14 28 10 C32 14 35 18 35 22 C34 28 30 36 28 42z" />
+          <!-- Upper side leaflets -->
+          <path d="M25 30 C22 26 16 22 13 19 C14 16 18 15 22 17 C24 19 26 24 27 30" />
+          <path d="M31 30 C34 26 40 22 43 19 C42 16 38 15 34 17 C32 19 30 24 29 30" />
+          <!-- Lower side leaflets (smaller) -->
+          <path d="M26 36 C23 34 18 31 15 30 C16 28 19 27 22 29 C24 30 25 33 26 36" />
+          <path d="M30 36 C33 34 38 31 41 30 C40 28 37 27 34 29 C32 30 31 33 30 36" />
+          <!-- Bottom leaflets (smallest) -->
+          <path d="M27 40 C24 39 20 37 18 37 C19 35 21 35 23 36 C25 37 26 39 27 40" opacity="0.7" />
+          <path d="M29 40 C32 39 36 37 38 37 C37 35 35 35 33 36 C31 37 30 39 29 40" opacity="0.7" />
         </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Cannabis Use Disorder</h2>
         <p>Epidemiology, neuropharmacology, screening, withdrawal, psychosocial and pharmacologic treatment, psychosis, CHS, synthetic cannabinoids, and special populations.</p>
       </a>
 
-      <!-- 5. Perinatal -->
+      <!-- 5. Perinatal — Mother and infant (profile silhouette) -->
       <a class="topic-card" href="https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="26" cy="10" r="4" />
-          <path d="M22 18c-1 2-2 6-2 10a10 10 0 0 0 5 8.6" />
-          <path d="M30 18c2 3 4 7 4 12" />
-          <path d="M22 28c0 0 2.5 1.5 6 1.5s5-1 5-1" />
-          <line x1="25" y1="36.6" x2="25" y2="42" />
-          <line x1="34" y1="30" x2="34" y2="42" />
+        <svg class="card-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Mother's head -->
+          <circle cx="20" cy="12" r="4.5" />
+          <!-- Mother's body / pregnant belly curve -->
+          <path d="M16 20c-1 3-2 7-2 11a3 3 0 0 0 3 3h0" />
+          <path d="M24 20c2 4 4 8 4 11a3 3 0 0 1-3 3h0" />
+          <!-- Pregnant belly -->
+          <path d="M17 26c0 0 1.5 5 5 7s5.5-0.5 6-3" />
+          <!-- Mother's legs -->
+          <line x1="17" y1="34" x2="16" y2="44" />
+          <line x1="25" y1="34" x2="26" y2="44" />
+          <!-- Baby's head -->
+          <circle cx="39" cy="26" r="3.5" />
+          <!-- Baby swaddle / body -->
+          <path d="M36 30c-1 2-1.5 5-0.5 8" />
+          <path d="M42 30c1 2 1.5 5 0.5 8" />
+          <path d="M35.5 38 c1.5 1 5.5 1 7 0" />
+          <!-- Connecting gesture (mother's arm reaching) -->
+          <path d="M25 24c3 0 7 1 10 3" opacity="0.4" />
         </svg>
         <span class="status-badge status-published">Published</span>
         <h2>Perinatal Substance Use Disorders</h2>
@@ -345,26 +662,252 @@ body {
     </div>
   </main>
 
+  
+    <!-- Suggestions & Feedback -->
+    <div class="feedback-box">
+      <h2>Suggestions &amp; Feedback</h2>
+      <form class="feedback-form" onsubmit="submitFeedback(event)">
+        <input type="hidden" name="_subject" value="">
+        <input type="hidden" name="_cc" value="troy.fowler@dhhs.nc.gov">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="feedback-field">
+          <label for="feedbackName">Your Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="feedbackName" name="name" placeholder="e.g., Dr. Smith" required>
+        </div>
+        <div class="feedback-field">
+          <label for="feedbackComment">Comment / Suggestion <span aria-hidden="true">*</span></label>
+          <textarea id="feedbackComment" name="comment" placeholder="Share a suggestion, correction, or comment…" required></textarea>
+        </div>
+        <button type="submit" class="feedback-submit">Submit</button>
+      </form>
+      <div class="feedback-success" id="feedbackSuccess" role="alert">
+        Thank you — your feedback has been recorded.
+      </div>
+    </div>
+
   <footer>
     <p>Created with <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Perplexity Computer</a></p>
     <p style="margin-top:1rem;font-size:0.72rem;color:var(--text-faint);line-height:1.6;max-width:700px;margin-left:auto;margin-right:auto;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</p>
   </footer>
 
   <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
-    
-    // Check for saved theme preference or default to 'dark'
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', currentTheme);
-    themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-    
-    themeToggle.addEventListener('click', () => {
-      const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+  /* ── Theme Toggle ── */
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const html = document.documentElement;
+
+  const moonPath = 'M13.5 8.5a5.5 5.5 0 1 1-6-6 4.5 4.5 0 0 0 6 6z';
+  const sunPath = 'M8 1v2m0 10v2M3.05 3.05l1.41 1.41m7.08 7.08l1.41 1.41M1 8h2m10 0h2M3.05 12.95l1.41-1.41m7.08-7.08l1.41-1.41M8 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z';
+
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', currentTheme);
+  themeIcon.innerHTML = currentTheme === 'dark'
+    ? '<path d="' + moonPath + '"/>'
+    : '<path d="' + sunPath + '"/>';
+
+  themeToggle.addEventListener('click', () => {
+    const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeIcon.innerHTML = theme === 'dark'
+      ? '<path d="' + moonPath + '"/>'
+      : '<path d="' + sunPath + '"/>';
+  });
+
+  /* ── Search ── */
+  const IDX = [{"t":"Epidemiology & Public Health","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Neuropharmacology","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Screening & Diagnosis","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Opioid Withdrawal Management","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Medications for OUD (MOUD)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Buprenorphine Deep Dive","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Overdose Prevention & Naloxone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Harm Reduction & Xylazine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Kratom & 7-Hydroxymitragynine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Pain Management in OUD","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Psychosocial Interventions & Special Populations","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Regulatory & Systems of Care","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Buprenorphine/Naloxone SL (Suboxone)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Buprenorphine SL (Subutex)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Buprenorphine SC (Sublocade)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Methadone (OTP only)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Naltrexone oral (ReVia)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Naltrexone XR-IM (Vivitrol)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Naloxone IN (Narcan)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Naloxone IN high-dose (Kloxxado)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Nalmefene IN (Opvee)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Clonidine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Lofexidine (Lucemyra)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Loperamide","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Ondansetron","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Tizanidine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Dicyclomine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Resting Pulse Rate","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Restlessness","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Pupil Size","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Bone or Joint Aches","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Runny Nose or Tearing","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"GI Upset","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Yawning","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Anxiety or Irritability","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Gooseflesh Skin","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Codeine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Fentanyl patch (mcg/hr)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Hydrocodone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Hydromorphone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Methadone (all doses)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Oxycodone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Oxymorphone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Tapentadol","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Tramadol","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Team ","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"category"},{"t":"Three Waves of the Opioid Crisis","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Wave 1: Prescription Opioids (1999\u20132017)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Wave 2: Heroin Transition (2010\u20132017)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Geographic spread from urban to suburban/rural communities","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Wave 3: Synthetic Fentanyl (2013\u2013present)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Proposed Fourth Wave: Polysubstance + Xylazine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Current Mortality & Morbidity Data","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Demographic Disparities","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Males significantly higher rates (32.2 vs 14.1/100K in 2024)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Economic Burden","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Treatment spending only $12B \u2014 massive treatment gap","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Healthy People 2030 Targets (SU-03, SU-18)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Most OUD-related HP2030 objectives remain far from targets","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Fentanyl Supply Dynamics","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Inconsistent potency (","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Xylazine (","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Opioid Receptor Subtypes","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"All opioid receptors are inhibitory Gi/o-protein coupled GPCRs","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Biased Agonism \u2014 G-protein vs. \u03b2-arrestin pathways","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Different agonists differentially activate signaling cascades","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Reward Circuitry & Neuroadaptation","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Neuroadaptation & Tolerance Mechanisms","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Withdrawal Neurobiology: Locus Coeruleus Hyperactivity","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Opioid-Induced Hyperalgesia (OIH)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Five Proposed Mechanisms","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"4. Genetic mechanisms (CaMKII\u03b1)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"5. Enhanced nociceptive response / decreased reuptake","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Methadone","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Pharmacogenomics: CYP2D6 & CYP3A4","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"FDA black box on codeine in children due to CYP2D6 variability","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"CYP3A4: Methadone, fentanyl, buprenorphine metabolism","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"DSM-5 OUD Criteria","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Severity: Mild (2-3), Moderate (4-5), Severe (\u22656 criteria)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Validated Screening Tools","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"DAST-10, ORT-OUD, CRAFFT (adolescents)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Clinical Evaluation Essentials","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Overdose History (Critical for Risk Stratification)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Severity: LOC duration, resuscitation, intubation, ICU admission","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Injection Drug Use Assessment","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Physical Exam & Diagnostic Testing","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"COWS Scale \u2014 Clinical Opiate Withdrawal Scale","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"11 Items scored 0-4 or 0-5 each (NIDA COWS PDF)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Withdrawal Timeline by Opioid Type","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Protracted Withdrawal Syndrome (PAWS): 4-24 months post-acute","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Symptomatic (Non-Opioid) Management","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Ondansetron 4-8mg PO/IV q6-8h; dicyclomine 20mg PO qid","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Tizanidine: \u03b12-agonist/muscle relaxant; caution hepatotoxicity","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Buprenorphine \u2014 Pharmacology & Formulations","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Methadone \u2014 Full Agonist, OTP-Dispensed","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"Naltrexone \u2014 Opioid Antagonist","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"topic"},{"t":"COWS Calculator","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"tool"},{"t":"MME Calculator","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"tool"},{"t":"Bup Induction Protocols","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"tool"},{"t":"Rx Quick Reference","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"tool"},{"t":"Jeopardy","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"activity"},{"t":"Case Simulator","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"activity"},{"t":"Pharmacotherapy Engine","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"activity"},{"t":"Myth vs. Evidence","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"activity"},{"t":"Flashcards","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"activity"},{"t":"Buprenorphine implant (Probuphine), weekly/monthly XR injection (Brixadi)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"medication"},{"t":"Sweating","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"medication"},{"t":"Tremor","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"medication"},{"t":"Morphine (oral)","m":"OUD","u":"https://troyfowlermd.github.io/Opioid-Use-Disorder/","k":"medication"},{"t":"Clinical Withdrawal Syndromes","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"category"},{"t":"Neurobiology of Dependence & Withdrawal","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"category"},{"t":"Acute Management","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"category"},{"t":"Long-Term Treatment & MAT","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"category"},{"t":"Recovery & Outcomes","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"category"},{"t":"Alcohol Withdrawal Syndrome (AWS)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Pathophysiology \u2014 GABA-A/NMDA Dual Mechanism","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"GABA-A Receptor Downregulation","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"NMDA Receptor Upregulation","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Voltage-Gated Calcium Channel (VGCC) Upregulation","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Clinical Timeline & Stages","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Stage 1: Minor Withdrawal (6\u201324h)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Stage 2: Seizures & Hallucinosis (12\u201348h)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Stage 3: Delirium Tremens (48\u201396h+)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Duration 1\u20138 days untreated; 3\u20135 days with aggressive treatment","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"CIWA-Ar Assessment","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"10-Item Scoring (max 67 points)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Severity Thresholds","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"\u22648: Mild \u2014 consider outpatient management","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"8\u201315: Moderate \u2014 inpatient monitoring strongly preferred","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":">15: Severe \u2014 inpatient required; impending DT risk","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":">15 + SBP >150 or HR >100: High risk for DT progression","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Limitations & Edge Cases","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"PAWSS Risk Stratification Tool","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"PAWSS \u22654 = high-risk patient requiring intensive management","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Predictors of Complicated Withdrawal","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Prior DT \u2014 strongest single predictor (OR >500 in some studies)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Prior AWS seizures \u2014 strong predictor of recurrent seizures","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Age >65 \u2014 impaired CNS compensation; reduced GABAergic reserve","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Kindling Phenomenon","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Molecular Mechanisms","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Clinical Evidence","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Clinical Implications","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Benzodiazepine Withdrawal Syndrome (BWS)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Half-Life Dependency & Timeline","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Short-Acting BZD Withdrawal","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Long-Acting BZD Withdrawal","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"True Withdrawal vs. Rebound vs. Recurrence","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Protracted Withdrawal Syndrome (PWS/PAWS)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Prevalence & Duration","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Symptom Domains","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Motor: muscle pain, cramps, tremor, spasms (1\u20132+ years)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Mechanisms","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Ashton Protocol","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Core Principles","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Individualized, patient-paced withdrawal \u2014 no fixed timelines","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Diazepam Equivalence Table","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Taper Rate Schedule","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Total typical duration: 30\u201360 weeks","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Delirium Tremens (DT)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Epidemiology & Mortality","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Cardinal Features","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Risk Factor Table","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Prior DT (OR >500) \u2014 single most powerful predictor","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"Prior alcohol-induced psychosis (OR 74.6)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"topic"},{"t":"CIWA-Ar Calculator","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"tool"},{"t":"Benzo Converter","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"tool"},{"t":"Standard Drinks","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"tool"},{"t":"Rx Quick Reference","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"tool"},{"t":"Jeopardy","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"activity"},{"t":"Case Simulator","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"activity"},{"t":"Pharmacotherapy Engine","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"activity"},{"t":"Myth vs. Evidence","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"activity"},{"t":"Flashcards","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"activity"},{"t":"Naltrexone (oral)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Naltrexone (XR-IM)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Acamprosate","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Disulfiram","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Gabapentin","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Topiramate","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Diazepam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Chlordiazepoxide","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Lorazepam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Oxazepam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Phenobarbital","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Alprazolam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Clonazepam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Clorazepate","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Temazepam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Triazolam","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Midazolam (oral)","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Beer","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Wine","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Spirits","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"IPA","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Malt Liquor","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Fortified Wine","m":"AUD/BZD","u":"https://troyfowlermd.github.io/Alcohol-and-Benzodiazepine-Use-Disorders/","k":"medication"},{"t":"Epidemiology & Public Health","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Pharmacology & Neurobiology","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Screening & Diagnosis","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Stimulant Intoxication & Medical Complications","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Stimulant Withdrawal","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Treatment: Behavioral Interventions","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Treatment: Pharmacotherapy (Investigational)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Stimulant-Induced Psychosis","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Methamphetamine-Specific Considerations","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Cocaine-Specific Considerations","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Special Populations","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Harm Reduction & Emerging Issues","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Bupropion XL + Injectable Naltrexone (Combination)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Mixed Amphetamine Salts XR (Agonist Therapy)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Methylphenidate XR (Agonist, Amphetamine-Type StUD)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Topiramate","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Modafinil","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Mirtazapine","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"N-Acetylcysteine (NAC)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Disulfiram (Cocaine-Specific Indication)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Bupropion XL (Monotherapy)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Lisdexamfetamine (Agonist Therapy \\u2014 Lower Abuse Potential)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"GLP-1 Receptor Agonists (e.g., Semaglutide, Exenatide)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Have you used drugs other than those required for medical reasons?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Do you abuse more than one drug at a time?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Are you always able to stop using drugs when you want to?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Have you had blackouts or flashbacks as a result of drug use?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Do you ever feel bad or guilty about your drug use?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Does your spouse (or parents) ever complain about your involvement with drugs?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Have you neglected your family because of your use of drugs?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Have you engaged in illegal activities in order to obtain drugs?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Have you had medical problems as a result of your drug use?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Tachycardia (HR > 100 bpm)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Hypertension (SBP > 160 or DBP > 100)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Hyperthermia (T > 38.5\\u00b0C / 101.3\\u00b0F)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Mydriasis (Dilated Pupils)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Chest Pain","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Psychotic Symptoms (Paranoia, Hallucinations)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Seizures","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Dysphoria / Anhedonia","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Hypersomnia / Fatigue","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Intense Craving","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Team ","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"category"},{"t":"Prevalence & Trends","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"NSDUH Cocaine Prevalence","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"NSDUH Methamphetamine Prevalence","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Prescription Stimulant Misuse","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Overdose Mortality & the Fourth Wave","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Cocaine Overdose Mortality Trend","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Methamphetamine/Psychostimulant Overdose Mortality Trend","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Fourth Wave Framework","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Polysubstance Use Patterns","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Demographics, Disparities & Economic Burden","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Cocaine Pharmacology & Pharmacokinetics","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Mechanism of Action","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Pharmacokinetics by Route","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Amphetamine Pharmacology & Neurobiology","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Mechanism: Reverse Transport & VMAT2 Inhibition","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Methamphetamine vs. Amphetamine vs. MDMA","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Mesolimbic Dopamine Pathway","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Neuroadaptation & Neurotoxicity","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Neuroadaptation: Tolerance and Sensitization","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Methamphetamine Neurotoxicity","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Prescription Stimulants: Therapeutic vs. Misuse Pharmacology","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"DSM-5-TR Stimulant Use Disorder Criteria","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"DSM-5-TR Criteria Overview","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"ASAM/AAAP Guideline Key Points on Diagnosis","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Screening Instruments","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Toxicology: Detection & Interpretation","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Urine Drug Screen Detection Windows","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"False Positives: Bupropion & Other Agents","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Distinguishing StUD from Therapeutic ADHD Stimulant Use","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Sympathomimetic Toxidrome & Acute Intoxication","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Cardiovascular Complications","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Cocaine Chest Pain","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Arrhythmias, Cardiomyopathy & Aortic Dissection","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Neurologic, Psychiatric & Pulmonary Complications","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Infectious Complications & Levamisole","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Levamisole Adulterant","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"DSM-5-TR Stimulant Withdrawal Criteria","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Timeline: Crash, Withdrawal & Extinction","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Pharmacological & Supportive Management","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Contingency Management (CM): Strongest Evidence","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"CM Evidence & Mechanism","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Implementation Barriers & Policy Landscape","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Cognitive Behavioral Therapy, CRA & Matrix Model","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Digital, Telehealth & Emerging Modalities","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"No FDA-Approved Medications for Stimulant Use Disorder","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Bupropion + Naltrexone: ADAPT-2 (Best Current Evidence)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"ADAPT-2 Trial Design & Results","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Clinical Application & Limitations","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Agonist Pharmacotherapy Approaches","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"Prescription Amphetamines for Methamphetamine Use Disorder","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"topic"},{"t":"DAST-10","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"tool"},{"t":"Symptom Tracker","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"tool"},{"t":"Pharma Guide","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"tool"},{"t":"Rx Quick Reference","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"tool"},{"t":"Jeopardy","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"activity"},{"t":"Case Simulator","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"activity"},{"t":"Pharmacotherapy Engine","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"activity"},{"t":"Myth vs. Evidence","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"activity"},{"t":"Flashcards","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"activity"},{"t":"Naltrexone (Monotherapy \\u2014 Injectable vs. Oral)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"medication"},{"t":"Have you ever experienced withdrawal symptoms (felt sick) when you stopped taking drugs?","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"medication"},{"t":"Psychomotor Agitation","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"medication"},{"t":"Diaphoresis (Profuse Sweating)","m":"StUD","u":"https://troyfowlermd.github.io/Stimulant-Use-Disorder/","k":"medication"},{"t":"Epidemiology & Public Health","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Endocannabinoid System & Neuropharmacology","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Screening & Diagnosis","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Cannabis Withdrawal Syndrome","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Treatment: Psychosocial Interventions","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Treatment: Pharmacotherapy (Investigational)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Cannabis & Psychosis","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Cannabis Hyperemesis Syndrome (CHS)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Synthetic Cannabinoids (K2/Spice)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Special Populations","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Driving, Cognition & Functional Impairment","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Legal, Regulatory & Emerging Issues","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"N-Acetylcysteine (NAC)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Gabapentin","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Dronabinol (Marinol)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Nabiximols (Sativex)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Topiramate","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Buspirone","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Venlafaxine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Mirtazapine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Lithium","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Divalproex","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"PF-04457845 (FAAH Inhibitor)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Amitriptyline (CHS Prophylaxis)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Have you ever thought about cutting down, or stopping, your use of cannabis?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Occasional User (<3\u00d7/week) \u2014 Urine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Moderate User (4-6\u00d7/week) \u2014 Urine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Daily User \u2014 Urine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Chronic Heavy User \u2014 Urine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Blood (Active THC)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Oral Fluid","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Hair Follicle","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Edibles \u2014 Onset & Duration","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Concentrates (Dabs/Wax)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Standard Cannabis Unit","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Team ","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"category"},{"t":"Prevalence, Trends & Potency Data","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"NSDUH Prevalence Data","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"THC Potency Trends","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Emerging Product Forms & Route-Specific Risks","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Demographic Risk Factors & Disparities","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Legalization Impact & Economic Burden","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Endocannabinoid System Architecture","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"CB1 Receptors","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"CB2 Receptors","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Endogenous Ligands: AEA & 2-AG","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"THC Pharmacology & Pharmacokinetics","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"CBD Pharmacology","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Minor Cannabinoids & Terpene Hypothesis","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Neuroadaptation in Chronic Use","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"DSM-5-TR Criteria & Severity Grading","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Validated Screening Instruments","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Toxicology & Detection","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Quantifying Use & Standard Cannabis Unit","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"DSM-5-TR Diagnostic Criteria","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Timeline & Severity Predictors","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Management Approaches","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"No FDA-approved pharmacotherapy for cannabis withdrawal","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"MET, CBT & Contingency Management","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"MET/CBT combination is first-line psychosocial treatment for CUD","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Contingency Management (CM)","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Family-Based & Emerging Therapies","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Digital & Telehealth Interventions","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Treatment Outcomes & Retention Challenges","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"No FDA-Approved Medications for CUD","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Gabapentin & Other Agents","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Epidemiological Evidence & Dose-Response","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Gene-Environment Interactions","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Cannabis-Induced Psychosis & Conversion","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Impact on Established Psychotic Illness","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Diagnosis & Clinical Presentation","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Pathophysiology","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Management","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Droperidol 0.625\\u20131.25 mg IV: effective in refractory cases","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Pharmacology & Toxidrome","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Epidemiology & Vulnerable Populations","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Management & Withdrawal","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Cannabis Use in Pregnancy","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Adolescents & the Developing Brain","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Older Adults","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Co-Occurring Psychiatric Disorders","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Medical Cannabis Patients & Perioperative","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Acute & Chronic Cognitive Effects","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Driving Impairment & Legal Issues","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"Neuroimaging & Functional Outcomes","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"topic"},{"t":"CUDIT-R","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"tool"},{"t":"THC Detection","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"tool"},{"t":"Withdrawal Guide","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"tool"},{"t":"Rx Quick Reference","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"tool"},{"t":"Jeopardy","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"activity"},{"t":"Case Simulator","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"activity"},{"t":"Pharmacotherapy Engine","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"activity"},{"t":"Myth vs. Evidence","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"activity"},{"t":"Flashcards","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"activity"},{"t":"How often do you use cannabis?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How many hours were you ","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How often during the past 6 months did you find that you were not able to stop using cannabis once you had started?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How often during the past 6 months did you fail to do what was normally expected from you because of using cannabis?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How often in the past 6 months have you devoted a great deal of your time to getting, using, or recovering from cannabis?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How often in the past 6 months have you had a problem with your memory or concentration after using cannabis?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"How often do you use cannabis in situations that could be physically hazardous, such as driving, operating machinery, or caring for children?","m":"CUD","u":"https://troyfowlermd.github.io/Cannabis-Use-Disorder/","k":"medication"},{"t":"Screening & Identification","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"OUD in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Alcohol Use in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Stimulant Use in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Cannabis Use in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Tobacco/Nicotine in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"NOWS / Neonatal Abstinence Syndrome","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Breastfeeding & Substance Use","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Psychiatric Comorbidities","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Legal, Ethical & Social Considerations","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Multidisciplinary Care Models","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"category"},{"t":"Universal Screening Approaches","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"4P's Plus Screening Tool","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"NIDA Quick Screen & CRAFFT 2.1 (age \u226426)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Urine Drug Screening Considerations","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Stigma-Informed Language & Motivational Interviewing","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Person-First Language in Perinatal SUD","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Motivational Interviewing in the Perinatal Setting","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Validated Screening Tools for Specific Substances","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Alcohol-Specific Screening Tools","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Multi-Substance & General Screening","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Pharmacotherapy: Buprenorphine vs Methadone","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"MOTHER Trial \u2014 Landmark Evidence (Jones et al., NEJM 2010)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Buprenorphine Prescribing in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Methadone Prescribing in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Opioid Agonist Therapy Initiation & Management","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Clinical Decision-Making: Buprenorphine vs Methadone","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Management Through Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Medically Supervised Withdrawal & Pain Management","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Medically Supervised Withdrawal in Pregnancy \u2014 Risks","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Supportive Medications for Opioid Withdrawal in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Pain Management in Labor/Delivery for Patients on MOUD","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Naltrexone Considerations in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Postpartum Considerations","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Postpartum Relapse Risk","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Contraception Planning","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Fetal Alcohol Spectrum Disorders (FASD)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"FASD Spectrum Overview","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"No Safe Level of Alcohol in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Screening & Management of Alcohol Use in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Alcohol Screening in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Alcohol Withdrawal Management in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Pathophysiology & Risk Stratification","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Benzodiazepine Protocol \u2014 First-Line Treatment","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Maternal & Fetal Monitoring During Withdrawal","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Supportive Medications for Alcohol Withdrawal in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Medications for Alcohol Use Disorder (MAT) in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Current FDA-Approved AUD Medications \u2014 Pregnancy Considerations","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Off-Label & Investigational Agents","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Cocaine in Pregnancy: Obstetric Complications","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Cocaine-Specific Risks","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Methamphetamine-Specific Data (AJOG 2024)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Management of Stimulant Use Disorder in Pregnancy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"No FDA-Approved Pharmacotherapy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Behavioral Interventions & Monitoring","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Current Evidence on Outcomes","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Meta-Analysis Data (2025, n=7.9 million)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Long-Term Neurodevelopmental Concerns","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Clinical Guidelines & Counseling","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Professional Organization Positions","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Counseling Approaches","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"topic"},{"t":"Finnegan NOWS","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"tool"},{"t":"Eat-Sleep-Console","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"tool"},{"t":"EPDS Calculator","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"tool"},{"t":"BF Safety Ref","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"tool"},{"t":"Rx Quick Reference","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"tool"},{"t":"Jeopardy","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"activity"},{"t":"Case Simulator","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"activity"},{"t":"Pharmacotherapy Engine","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"activity"},{"t":"Myth vs. Evidence","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"activity"},{"t":"Flashcards","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"activity"},{"t":"Buprenorphine (SL)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Buprenorphine (XR inj)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Methadone","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Naltrexone (oral/IM)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Sertraline","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Fluoxetine","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Escitalopram","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Lamotrigine","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Quetiapine","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Hydroxyzine","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Morphine (neonatal)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Clonidine (neonatal)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Phenobarbital (neonatal)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Excessive High-Pitched Cry","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Continuous High-Pitched Cry","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Sleep After Feeding","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Hyperactive Moro Reflex","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Tremors \u2014 Disturbed","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Tremors \u2014 Undisturbed","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Increased Muscle Tone","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Excoriation (chin, knees, toes)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Myoclonic Jerks","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Generalized Convulsions","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Sweating","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Fever (37.2-38.3\u00b0C / >38.4\u00b0C)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Frequent Yawning (>3-4\u00d7)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Mottling","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Nasal Stuffiness","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Sneezing (>3-4\u00d7)","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Nasal Flaring","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Respiratory Rate","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Excessive Sucking","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Poor Feeding","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"},{"t":"Loose Stools","m":"Perinatal","u":"https://troyfowlermd.github.io/Perinatal-Substance-Use-Disorders/","k":"medication"}];
+
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+  let activeIdx = -1;
+
+  function normalize(s) {
+    return s.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const words = query.split(/\s+/).filter(Boolean);
+    let result = text;
+    words.forEach(w => {
+      const re = new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      result = result.replace(re, '<mark>$1</mark>');
     });
+    return result;
+  }
+
+  function search(query) {
+    const q = normalize(query);
+    if (q.length < 2) return [];
+
+    const words = q.split(/\s+/);
+    const scored = [];
+
+    IDX.forEach(entry => {
+      const title = normalize(entry.t);
+      let score = 0;
+
+      // Exact match
+      if (title === q) score += 100;
+      // Starts with
+      else if (title.startsWith(q)) score += 60;
+      // Contains full query
+      else if (title.includes(q)) score += 40;
+      // All words present
+      else if (words.every(w => title.includes(w))) score += 25;
+      // Any word present
+      else {
+        const matched = words.filter(w => title.includes(w));
+        if (matched.length > 0) score += matched.length * 8;
+      }
+
+      // Kind weighting
+      if (score > 0) {
+        const kindBonus = { category: 5, topic: 3, medication: 4, tool: 2, activity: 1 };
+        score += (kindBonus[entry.k] || 0);
+        scored.push({ ...entry, score });
+      }
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+
+    // Deduplicate by title + module
+    const seen = new Set();
+    return scored.filter(e => {
+      const key = e.t + '|' + e.m;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, 15);
+  }
+
+  function renderResults(results, query) {
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="search-empty">No results found</div>';
+      searchResults.classList.add('active');
+      activeIdx = -1;
+      return;
+    }
+
+    searchResults.innerHTML = results.map((r, i) =>
+      '<a class="sr-item" href="' + r.u + '" data-idx="' + i + '">' +
+        '<span class="sr-kind">' + r.k + '</span>' +
+        '<span class="sr-title">' + highlight(r.t, query) + '</span>' +
+        '<span class="sr-badge" data-mod="' + r.m + '">' + r.m + '</span>' +
+      '</a>'
+    ).join('');
+    searchResults.classList.add('active');
+    activeIdx = -1;
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim();
+    if (q.length < 2) {
+      searchResults.classList.remove('active');
+      return;
+    }
+    const results = search(q);
+    renderResults(results, q);
+  });
+
+  // Keyboard navigation
+  searchInput.addEventListener('keydown', (e) => {
+    const items = searchResults.querySelectorAll('.sr-item');
+    if (!items.length) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      items[activeIdx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      items[activeIdx].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter' && activeIdx >= 0) {
+      e.preventDefault();
+      items[activeIdx].click();
+    } else if (e.key === 'Escape') {
+      searchResults.classList.remove('active');
+      searchInput.blur();
+    }
+  });
+
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) {
+      searchResults.classList.remove('active');
+    }
+  });
   </script>
+
+<script>
+(function() {
+  'use strict';
+  var FORMSUBMIT_URL = 'https://formsubmit.co/ajax/troyfowlermd@gmail.com';
+
+  window.submitFeedback = function(event) {
+    event.preventDefault();
+    var form = event.target;
+    var nameInput = form.querySelector('[name="name"]');
+    var commentInput = form.querySelector('[name="comment"]');
+    var submitBtn = form.querySelector('.feedback-submit');
+    var successEl = document.getElementById('feedbackSuccess');
+
+    var nameVal = nameInput ? nameInput.value.trim() : '';
+    var commentVal = commentInput ? commentInput.value.trim() : '';
+    if (!nameVal || !commentVal) return;
+
+    var pageName = document.title || window.location.pathname;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+    }
+
+    var formData = new FormData();
+    formData.append('name', nameVal);
+    formData.append('comment', commentVal);
+    formData.append('page', pageName);
+    formData.append('timestamp', new Date().toISOString());
+    formData.append('_subject', 'AddictionEd Feedback: ' + pageName);
+    formData.append('_cc', 'troy.fowler@dhhs.nc.gov');
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+
+    fetch(FORMSUBMIT_URL, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('Network error');
+      return response.json();
+    })
+    .then(function() {
+      form.reset();
+      if (successEl) {
+        successEl.classList.add('visible');
+        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
+      }
+    })
+    .catch(function() {
+      form.reset();
+      if (successEl) {
+        successEl.classList.add('visible');
+        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
+      }
+    })
+    .finally(function() {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+      }
+    });
+  };
+})();
+</script>
 </body>
 </html>
